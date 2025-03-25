@@ -1,10 +1,19 @@
 import csv
 from datetime import datetime
-import os
+import os, sys
 
+
+current_dir = os.getcwd()
+fidl_path = os.path.abspath(os.path.join(current_dir, ".", "fidl"))
+sys.path.insert(0, fidl_path)
+
+interfaces_path = os.path.abspath(os.path.join(current_dir, ".", "Interfaces"))
+sys.path.insert(0, interfaces_path)
+
+import getResetCounters
 
 def main():
-    filename = "rst_counters_try.csv"
+    filename = "rst_counters_flat_sat.csv"
 
 
     headers = [
@@ -41,7 +50,7 @@ def main():
     
     # Get current date/time and RST counters
     now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    rst_values = getRSTCounters()
+    rst_values = getResetCounters.getResetCounters()
     
     # Check if the file exists
     file_exists = os.path.exists(filename)
