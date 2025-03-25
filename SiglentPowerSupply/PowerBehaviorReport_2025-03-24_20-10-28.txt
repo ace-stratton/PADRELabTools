@@ -1,0 +1,3 @@
+The spacecraft turned on at 2025-03-24 20:10:35
+The spacecraft turned off at 2025-03-24 20:23:57
+The spacecraft turned on at 2025-03-25 08:19:59
