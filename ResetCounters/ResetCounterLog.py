@@ -13,7 +13,7 @@ sys.path.insert(0, interfaces_path)
 import getResetCounters
 
 def main():
-    filename = "rst_counters_flat_sat.csv"
+    filename = "rst_counters_flight.csv"
 
 
     headers = [
