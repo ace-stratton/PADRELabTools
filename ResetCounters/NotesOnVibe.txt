@@ -1,0 +1,5 @@
+- accidentally turned on once, realized that rails were not fully depressed because rollerswitches were on top. 
+For flight we may want to make sure roller switches are down. However, if they are face up that will allow us to actually 
+charge the satellite by just opening up the doors. 
+
+Turned on once when installing, because rails were not depressed
