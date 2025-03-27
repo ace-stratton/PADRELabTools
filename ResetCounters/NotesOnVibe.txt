@@ -2,4 +2,7 @@
 For flight we may want to make sure roller switches are down. However, if they are face up that will allow us to actually 
 charge the satellite by just opening up the doors. 
 
-Turned on once when installing, because rails were not depressed
+Turned on once when installing, because rails were not depressed.
+
+The vibe was hosted the day of Mar 26th. Twice during vibe set up the spacecraft was knowingly turned on. Then turned on again upon return after 
+vibe. This means that all 3 reset counters are accounted for and that PADRE did not turn on during vibe. 
