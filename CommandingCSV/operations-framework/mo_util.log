@@ -1,34 +1,7 @@
-2025-04-04 12:35:21,512 [INFO ]  Starting utility with arguments: Namespace(gen=False, fake_pass=None, pass_duration=15, sat=None, suff=None, priority=3900, delete=False, schedule='examples/obc_download_Sci_Files_.csv', requested_pass='3d409988-1ce6-45dc-ba57-b00c4dcab8e1', verbose=True)
-2025-04-04 12:35:21,709 [INFO ]  Found pass ongoing 1743795304000, so adding a delay between commands
-2025-04-04 12:35:21,709 [INFO ]  Creating command for satellite: padre with name: Download PADREMDA0_250403185914.IDX and priority 3900
-2025-04-04 12:35:21,810 [INFO ]  --------------------------------------------------------------------
-2025-04-04 12:35:21,810 [INFO ]  Created command with id: 7ff37e19-560c-45d6-9ddc-b28f85b6fe4c
-2025-04-04 12:35:21,811 [INFO ]  Live pass, sleeping for 4s to allow for rawData to be filled in...
-2025-04-04 12:35:25,812 [INFO ]  Creating command for satellite: padre with name: Download PADREMDA2_250403185923.IDX and priority 3890
-2025-04-04 12:35:25,909 [INFO ]  --------------------------------------------------------------------
-2025-04-04 12:35:25,909 [INFO ]  Created command with id: f0740cf7-849c-46d6-8287-cd2d9d48820c
-2025-04-04 12:35:25,909 [INFO ]  Live pass, sleeping for 4s to allow for rawData to be filled in...
-2025-04-04 12:35:29,910 [INFO ]  Creating command for satellite: padre with name: Download PADRESP12_250403190428.IDX and priority 3880
-2025-04-04 12:35:30,257 [INFO ]  --------------------------------------------------------------------
-2025-04-04 12:35:30,257 [INFO ]  Created command with id: 90de697f-4a56-4b68-9114-2a0413e6e624
-2025-04-04 12:35:30,258 [INFO ]  Live pass, sleeping for 4s to allow for rawData to be filled in...
-2025-04-04 12:35:34,258 [INFO ]  Creating command for satellite: padre with name: Download PADRESP17_250403190414.IDX and priority 3870
-2025-04-04 12:35:34,361 [INFO ]  --------------------------------------------------------------------
-2025-04-04 12:35:34,361 [INFO ]  Created command with id: d45381df-71f6-4b41-bcaf-a320e119761f
-2025-04-04 12:35:34,361 [INFO ]  Live pass, sleeping for 4s to allow for rawData to be filled in...
-2025-04-04 12:35:38,362 [INFO ]  Creating command for satellite: padre with name: Download PADRESP14_250403190456.IDX and priority 3860
-2025-04-04 12:35:38,619 [INFO ]  --------------------------------------------------------------------
-2025-04-04 12:35:38,619 [INFO ]  Created command with id: 4b7408dc-0d01-48a5-aebf-bccf1cca55b2
-2025-04-04 12:35:38,619 [INFO ]  Live pass, sleeping for 4s to allow for rawData to be filled in...
-2025-04-04 12:35:42,620 [INFO ]  Creating command for satellite: padre with name: Download PADRESP13_250403190411.IDX and priority 3850
-2025-04-04 12:35:42,747 [INFO ]  --------------------------------------------------------------------
-2025-04-04 12:35:42,747 [INFO ]  Created command with id: 4356f96c-3ac5-4e6b-8a6f-8abd147b1fee
-2025-04-04 12:35:42,747 [INFO ]  Live pass, sleeping for 4s to allow for rawData to be filled in...
-2025-04-04 12:35:46,748 [INFO ]  Creating command for satellite: padre with name: Download PADRESP16_250403190407.IDX and priority 3840
-2025-04-04 12:35:46,854 [INFO ]  --------------------------------------------------------------------
-2025-04-04 12:35:46,854 [INFO ]  Created command with id: daaf5d59-8fa5-40f5-ac90-a30f85f349d1
-2025-04-04 12:35:46,854 [INFO ]  Live pass, sleeping for 4s to allow for rawData to be filled in...
-2025-04-04 12:35:50,855 [INFO ]  Creating command for satellite: padre with name: Download PADRESP15_250403190453.IDX and priority 3830
-2025-04-04 12:35:51,251 [INFO ]  --------------------------------------------------------------------
-2025-04-04 12:35:51,251 [INFO ]  Created command with id: ad0aea9c-5cb7-4c57-b5ad-fee3c8c4ae7a
-2025-04-04 12:35:51,251 [INFO ]  Live pass, sleeping for 4s to allow for rawData to be filled in...
+2025-04-04 12:49:59,646 [INFO ]  Starting utility with arguments: Namespace(gen=False, fake_pass=None, pass_duration=15, sat=None, suff=None, priority=3900, delete=False, schedule='examples/obc_direct_dirlist.csv', requested_pass='ef5a1119-b534-4a60-8b2a-91accee282cd', verbose=True)
+2025-04-04 12:49:59,861 [INFO ]  Creating command for satellite: padre with name: fileDumpDirListToFile and priority 3900
+2025-04-04 12:49:59,991 [INFO ]  --------------------------------------------------------------------
+2025-04-04 12:49:59,991 [INFO ]  Created command with id: ece388e6-711e-47f7-80df-f6feacfe33ed
+2025-04-04 12:49:59,991 [INFO ]  Creating command for satellite: padre with name: Download DIRLIST.TXT and priority 3890
+2025-04-04 12:50:00,093 [INFO ]  --------------------------------------------------------------------
+2025-04-04 12:50:00,094 [INFO ]  Created command with id: b75df0f0-9201-46aa-957e-e543852a7637

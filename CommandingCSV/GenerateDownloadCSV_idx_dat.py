@@ -65,7 +65,7 @@ for line in lines:
 # ----------------------------
 # Write the output CSV
 # ----------------------------
-output_filename = "obc_download_Sci_Files_.csv"
+output_filename = "obc_download_Sci_Files.csv"
 with open(output_filename, "w", newline="") as csvfile:
     # Create a CSV writer that uses semicolons as delimiters.
     writer = csv.writer(csvfile, delimiter=";")
