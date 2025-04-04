@@ -1,0 +1,6 @@
+getModuleVersionInfo;fidl-id;subsystem-id;;;10;
+getResetCounters;fidl-id;subsystem-id;;;10;
+getUptime;fidl-id;subsystem-id;;;10;
+getI2CPullUpsState;fidl-id;subsystem-id;;;10;
+getGpOutputStates;fidl-id;subsystem-id;;;10;
+getUptime;fidl-id;subsystem-id;;;10;

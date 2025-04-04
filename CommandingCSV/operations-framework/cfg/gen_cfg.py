@@ -1,0 +1,1 @@
+GEN_LINE = """java -jar gen-resources\openapi-generator-cli-5.2.1.jar generate -i https://api.ground-station.endurosat.com/v3/api-docs -g python-legacy -o . --additional-properties=generateSourceCodeOnly=true,packageName=endurosat_api"""

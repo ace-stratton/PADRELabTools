@@ -1,0 +1,14 @@
+ReadRfFreqCfg;fidl-id;subsystem-id;;;10;
+ReadSatCfg;fidl-id;subsystem-id;;;10;
+ReadRadioCRCCfg;fidl-id;subsystem-id;;;10;
+ReadRFSettings;fidl-id;subsystem-id;;;10;
+ReadAutomatedBeaconsCfg;fidl-id;subsystem-id;;;10;
+GetDualPAMode;fidl-id;subsystem-id;;;10;
+ReadAx25Cfg;fidl-id;subsystem-id;;;10;
+ReadCipherKeySlotStatus;fidl-id;subsystem-id;;;10;
+ReadConOps;fidl-id;subsystem-id;;;10;
+ReadEpsCfg;fidl-id;subsystem-id;;;10;
+ReadLoggerCfg;fidl-id;subsystem-id;;;10;
+ReadPipeModeCfg;fidl-id;subsystem-id;;;10;
+ReadPortCfg;fidl-id;subsystem-id;;;10;
+ReadTxtBeaconContentCfg;fidl-id;subsystem-id;;;10;

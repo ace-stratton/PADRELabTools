@@ -1,0 +1,2 @@
+fileDumpDirListToFile;padre-padre-filemanager-fidl;padre-obc;{"volumeId": 0, "filePath": "DIRLIST.TXT", "pattern": "*"};;100;
+Download DIRLIST.TXT;padre-file-manager-commands;padre-obc;{"type": "obcDownload", "fileName": "DIRLIST.TXT", "offset": 0,"volId":0};;150;
