@@ -1,11 +1,15 @@
 import os
 import csv
+import subprocess
 from datetime import datetime, timedelta
 
-# ----------------------------
-# User Input: DateTimePull (format "YYMMDDHHMM")
-# ----------------------------
-DateTimePull = "2504031904"  # change this string as needed
+# -----------------------------------------------------------------------------
+# User Input:
+#   DateTimePull    - Central time (format "YYMMDDHHMM")
+#   DurationMinutes - Window (in minutes) around DateTimePull to include files.
+# -----------------------------------------------------------------------------
+DateTimePull = "2504100206"  # e.g. "YYMMDDHHMM" (change as needed)
+DurationMinutes = 10         # ± minutes window (adjust as needed)
 
 # Convert the input string to a datetime object.
 try:
@@ -20,67 +24,195 @@ with open("DirList.txt", "r") as file:
     # Read all lines and skip the header
     lines = file.readlines()[1:]
 
-# List to hold matching file names (in uppercase)
-selected_files = []
+# This list will store tuples: (original_filename (upper-case), file_dt)
+matching_entries = []
 
-# ----------------------------
-# Process each line in the file
-# ----------------------------
+# -----------------------------------------------------------------------------
+# Process each line from DirList.txt, filter for files starting with
+# "padreMD" or "padreSP" and ending with ".idx", and matching the time window.
+# -----------------------------------------------------------------------------
 for line in lines:
     line = line.strip()
     if not line:
         continue
 
-    # The first column is the file path (e.g., "/sd/padreMDA0_250401212029.dat")
+    # First column is the file path (e.g., "/sd/padreMDA0_250401212029.idx")
     parts = line.split(",")
     file_path = parts[0]
 
-    # Get the base file name (e.g., "padreMDA0_250401212029.dat")
+    # Get the base file name (e.g., "padreMDA0_250401212029.idx")
     base_name = os.path.basename(file_path)
     lower_name = base_name.lower()
 
-    # Check if the file name starts with "padreMD" or "padreSP"
-    if lower_name.startswith("padremd") or lower_name.startswith("padresp"):
-        # Extract the timestamp part from the file name.
-        # Expected format: padre####_YYMMDDHHMMSS.xxx
+    # Check: filename starts with "padreMD" or "padreSP" AND ends with ".idx"
+    if (lower_name.startswith("padremd") or lower_name.startswith("padresp")):
+        # Expected filename format: padre####_YYMMDDHHMMSS.idx
         underscore_index = base_name.find("_")
         dot_index = base_name.find(".", underscore_index)
+        fileType = base_name[dot_index+1:]
         if underscore_index != -1 and dot_index != -1:
-            # Extract the time portion between the underscore and the dot.
+            # Extract the timestamp portion (between '_' and '.')
             time_str = base_name[underscore_index + 1:dot_index]
-            # Ensure we have at least 10 characters (the input covers YYMMDDHHMM).
+            # Ensure we have enough characters (at least for YYMMDDHHMM)
             if len(time_str) >= 10:
                 try:
-                    # Parse the file's timestamp (which includes seconds)
+                    # Parse the file's timestamp (expects full seconds, i.e. YYMMDDHHMMSS)
                     file_dt = datetime.strptime(time_str, "%y%m%d%H%M%S")
                 except ValueError:
-                    # Skip files that don't follow the expected time format
-                    continue
+                    continue  # Skip files that do not have the expected time string format
 
-                # Check if the file's timestamp is within +/- 10 minutes of dt_pull.
-                if abs(file_dt - dt_pull) <= timedelta(minutes=10):
-                    # Convert the file name (base_name) to upper case and store it.
-                    selected_files.append(base_name.upper())
+                # Check if the file's timestamp is within ±DurationMinutes of the input time.
+                if abs(file_dt - dt_pull) <= timedelta(minutes=DurationMinutes):
+                    # Store the upper-case version of the base file name and its datetime.
+                    matching_entries.append((base_name.upper(), file_dt, fileType))
 
-# ----------------------------
-# Write the output CSV
-# ----------------------------
-output_filename = "obc_download_Sci_Files.csv"
-with open(output_filename, "w", newline="") as csvfile:
-    # Create a CSV writer that uses semicolons as delimiters.
-    writer = csv.writer(csvfile, delimiter=";")
-    for fname in selected_files:
-        # Construct the row using the provided template,
-        # replacing DIRLIST.TXT with the current file name.
-        row = [
-            f"Download {fname}",
-            "padre-file-manager-commands",
-            "padre-obc",
-            f'{{"type": "obcDownload", "fileName": "{fname}", "offset": 0,"volId":0}}',
-            "",
-            "150",
-            ""
-        ]
+# -----------------------------------------------------------------------------
+# Assign new file names sequentially: file-0, file-1, ...
+# Build a list of dictionaries with keys: "old", "new", "timestamp"
+# -----------------------------------------------------------------------------
+file_mappings = []
+for i, (orig_name, file_dt, fileType) in enumerate(matching_entries):
+    new_name = f"file-{i}.{fileType}"
+    file_mappings.append({"old": orig_name, "new": new_name, "timestamp": file_dt})
+
+# -----------------------------------------------------------------------------
+# Step 1: Write the lookup CSV with original and new file names plus timestamp.
+# The file is named "FilenameDirectory_[entered date]_Gen_[currentDateTime].csv"
+# -----------------------------------------------------------------------------
+gen_time_str = datetime.now().strftime("%Y%m%d_%H%M%S")
+lookup_csv_filename = f"FilenameDirectory_{DateTimePull}_Gen_{gen_time_str}.csv"
+
+with open(lookup_csv_filename, "w", newline="") as csvfile:
+    writer = csv.writer(csvfile, delimiter=";", lineterminator="\n")
+    # Optionally, you may include a header row:
+    # writer.writerow(["Old Filename", "New Filename", "Extracted Timestamp"])
+    for mapping in file_mappings:
+        # Format timestamp in a readable format (e.g., "YYYY-MM-DD HH:MM:SS")
+        ts_formatted = mapping["timestamp"].strftime("%Y-%m-%d %H:%M:%S")
+        writer.writerow([mapping["old"], mapping["new"], ts_formatted])
+
+# -----------------------------------------------------------------------------
+# Step 2: Write the rename_files.csv.
+# Each row is as follows:
+# Rename;padre-padre-filemanager-fidl;padre-obc;{"oldPath": "[OG filename]", "newFileName": "[new file name]"};;100;
+# -----------------------------------------------------------------------------
+with open("rename_files.csv", "w", newline="") as csvfile:
+    writer = csv.writer(csvfile, delimiter=";", lineterminator="\n")
+    for mapping in file_mappings:
+        row = ["Rename", 
+               "padre-padre-filemanager-fidl", 
+               "padre-obc", 
+               f'{{"oldPath": "{mapping['old']}", "newPath": "{mapping['new']}"}}', 
+               "", 
+               "100", 
+               ""]
         writer.writerow(row)
 
-print(f"CSV file '{output_filename}' has been generated with {len(selected_files)} matching file(s).")
+# -----------------------------------------------------------------------------
+# Step 3: Write the obc_download_Sci_Files_.csv using the new file names.
+# Each row is as follows:
+# Download [new file name];padre-file-manager-commands;padre-obc;
+# {"type": "obcDownload", "fileName": "[new file name]", "offset": 0,"volId":0};;150;
+# -----------------------------------------------------------------------------
+with open("obc_download_Sci_Files.csv", "w", newline="") as csvfile:
+    writer = csv.writer(csvfile, delimiter=";", lineterminator="\n")
+    for mapping in file_mappings:
+        fileNAME = mapping["new"]
+        json_part = f'{{"type": "obcDownload", "fileName": "{fileNAME}", "offset": 0,"volId":0}}'
+        row = [f"Download {mapping['new']}", 
+               "padre-file-manager-commands", 
+               "padre-obc", 
+               json_part, 
+               "", 
+               "150",
+                 ""]
+        writer.writerow(row)
+
+# -----------------------------------------------------------------------------
+# Helper function to convert a string to its decimal ASCII values and append a trailing 0.
+# Returns a list of string representations of the decimals.
+# -----------------------------------------------------------------------------
+def convert_string_to_decimal_list(s):
+    dec_list = [str(ord(ch)) for ch in s]  # Convert each character to its ASCII code as string.
+    dec_list.append("0")
+    return dec_list
+
+# -----------------------------------------------------------------------------
+# Step 4: Write the fileUpload.csv.
+# For each new file mapping, create a row like:
+# SXBand_GwSendCmd;padre-padre-filemanager-fidl;padre-obc;
+# {"Identifier": "8217", "Cmd": {"value": 96}, "Type": {"value": 87}, 
+#  "Data": [<decimal list>], "DataLen": "<length>"};;100;
+# Then add an extra row to upload "schedule_03.bin" in a similar format.
+# -----------------------------------------------------------------------------
+with open("fileUpload.csv", "w", newline="") as csvfile:
+    writer = csv.writer(csvfile, delimiter=";")
+    # Write a row for each file mapping:
+    for mapping in file_mappings:
+        new_name = mapping["new"]
+        dec_list = convert_string_to_decimal_list(new_name)
+        data_str = "[" + ",".join(dec_list) + "]"
+        data_len = len(dec_list)
+        json_part = (f'{{"cmdData": {{"Identifier": "8217", "Cmd": {{"value": 96}}, "Type": {{"value": 87}}, '
+                     f'"Data": {data_str}, "DataLen": "{data_len}"}}}}')
+        row = ["SXBand_GwSendCmd", "padre-padre-filemanager-fidl", "padre-obc", json_part, "", "100", ""]
+        writer.writerow(row)
+    
+    # Now add an extra row for "schedule_03.bin":
+    schedule_bin = "schedule_03.bin"
+    dec_list = convert_string_to_decimal_list(schedule_bin)
+    data_str = "[" + ",".join(dec_list) + "]"
+    data_len = len(dec_list)
+    json_part = (f'{{"Identifier": "8217", "Cmd": {{"value": 96}}, "Type": {{"value": 87}}, '
+                 f'"Data": {data_str}, "DataLen": "{data_len}"}}')
+    row = ["SXBand_GwSendCmd", "padre-padre-filemanager-fidl", "padre-obc", json_part, "", "100", ""]
+    writer.writerow(row)
+
+# -----------------------------------------------------------------------------
+# Step 5: Write the schedule_03.csv.
+# Format:
+# Header row:          cmd,type,data
+# Fixed rows:
+#   0x09,R,
+#   0x09,W,000503030107000000010000020000000202070700050000
+#   0x30,W,
+# Then for each new file (each unique new file name from file_mappings),
+#   add a row: 0x70,W,"<new file name>"
+# Finally, add a fixed last row: 0x31,W,
+# -----------------------------------------------------------------------------
+with open("schedule_03.csv", "w", newline="") as f:
+    f.write("cmd,type,data\n")
+    f.write("0x09,R,\n")
+    f.write("0x09,W,000503030107000000010000020000000202070700050000\n")
+    f.write("0x30,W,\n")
+    for mapping in file_mappings:
+        # Writes: 0x70,W,"file-0"
+        f.write(f'0x70,W,"{mapping["new"]}"\n')
+    f.write("0x31,W,\n")
+
+# -----------------------------------------------------------------------------
+# Final Step: Call the external script sxband_cmd_list_create.py
+#
+# This script is called from the command line with arguments:
+#   --input-file schedule_03.csv
+#   --output-file schedule_03.bin
+#   --sfn schedule_03.sfn
+#   --device-id 8217
+#
+# Adjust the command below as needed (for instance the python executable or path).
+# -----------------------------------------------------------------------------
+command = [
+    "python", "sxband_cmd_list_create.py",
+    "--input-file", "schedule_03.csv",
+    "--output-file", "schedule_03.bin",
+    "-sfn", "schedule_03.sfn",
+    "--device-id", "8217"
+]
+
+try:
+    subprocess.run(command, check=True)
+    print("External script sxband_cmd_list_create.py executed successfully.")
+except subprocess.CalledProcessError as e:
+    print("Error running sxband_cmd_list_create.py:", e)
+
+print(f"Generated files:\n  {lookup_csv_filename}\n  rename_files.csv\n  obc_download_Sci_Files.csv\n  fileUpload.csv\n  schedule_03.csv")

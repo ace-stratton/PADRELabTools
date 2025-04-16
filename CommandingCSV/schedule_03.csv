@@ -1,0 +1,15 @@
+cmd,type,data
+0x09,R,
+0x09,W,000503030107000000010000020000000202070700050000
+0x30,W,
+0x70,W,"file-0.dat"
+0x70,W,"file-1.dat"
+0x70,W,"file-2.idx"
+0x70,W,"file-3.dat"
+0x70,W,"file-4.idx"
+0x70,W,"file-5.dat"
+0x70,W,"file-6.idx"
+0x70,W,"file-7.dat"
+0x70,W,"file-8.idx"
+0x70,W,"file-9.idx"
+0x31,W,
