@@ -8,8 +8,8 @@ from datetime import datetime, timedelta
 #   DateTimePull    - Central time (format "YYMMDDHHMM")
 #   DurationMinutes - Window (in minutes) around DateTimePull to include files.
 # -----------------------------------------------------------------------------
-DateTimePull = "2504100206"  # e.g. "YYMMDDHHMM" (change as needed)
-DurationMinutes = 10         # ± minutes window (adjust as needed)
+DateTimePull = "2504070309"  # e.g. "YYMMDDHHMM" (change as needed)
+DurationMinutes = 60*24         # ± minutes window (adjust as needed)
 
 # Convert the input string to a datetime object.
 try:
@@ -39,13 +39,13 @@ for line in lines:
     # First column is the file path (e.g., "/sd/padreMDA0_250401212029.idx")
     parts = line.split(",")
     file_path = parts[0]
-
+    file_size = int(parts[1])  # Not used in this script, but can be useful for debugging
     # Get the base file name (e.g., "padreMDA0_250401212029.idx")
     base_name = os.path.basename(file_path)
     lower_name = base_name.lower()
 
-    # Check: filename starts with "padreMD" or "padreSP" AND ends with ".idx"
-    if (lower_name.startswith("padremd") or lower_name.startswith("padresp")):
+    # Check: filename starts with "padreMD" or "padreSP" AND if file size is >= 500"
+    if (lower_name.startswith("padremd") or lower_name.startswith("padresp")) and file_size >= 500:
         # Expected filename format: padre####_YYMMDDHHMMSS.idx
         underscore_index = base_name.find("_")
         dot_index = base_name.find(".", underscore_index)
@@ -64,16 +64,16 @@ for line in lines:
                 # Check if the file's timestamp is within ±DurationMinutes of the input time.
                 if abs(file_dt - dt_pull) <= timedelta(minutes=DurationMinutes):
                     # Store the upper-case version of the base file name and its datetime.
-                    matching_entries.append((base_name.upper(), file_dt, fileType))
+                    matching_entries.append((base_name.upper(), file_dt, fileType, file_size))
 
 # -----------------------------------------------------------------------------
 # Assign new file names sequentially: file-0, file-1, ...
 # Build a list of dictionaries with keys: "old", "new", "timestamp"
 # -----------------------------------------------------------------------------
 file_mappings = []
-for i, (orig_name, file_dt, fileType) in enumerate(matching_entries):
-    new_name = f"file-{i}.{fileType}"
-    file_mappings.append({"old": orig_name, "new": new_name, "timestamp": file_dt})
+for i, (orig_name, file_dt, fileType, file_size) in enumerate(matching_entries):
+    new_name = f"file{i}.{fileType}"
+    file_mappings.append({"old": orig_name, "new": new_name, "timestamp": file_dt, "filesize": file_size})
 
 # -----------------------------------------------------------------------------
 # Step 1: Write the lookup CSV with original and new file names plus timestamp.
@@ -89,7 +89,7 @@ with open(lookup_csv_filename, "w", newline="") as csvfile:
     for mapping in file_mappings:
         # Format timestamp in a readable format (e.g., "YYYY-MM-DD HH:MM:SS")
         ts_formatted = mapping["timestamp"].strftime("%Y-%m-%d %H:%M:%S")
-        writer.writerow([mapping["old"], mapping["new"], ts_formatted])
+        writer.writerow([mapping["old"], mapping["new"], ts_formatted, mapping["filesize"]])
 
 # -----------------------------------------------------------------------------
 # Step 2: Write the rename_files.csv.
@@ -107,6 +107,18 @@ with open("rename_files.csv", "w", newline="") as csvfile:
                "100", 
                ""]
         writer.writerow(row)
+
+    # Now add an extra row for "schedule_03.bin":
+    schedule_bin = "schedule_03.bin"
+    json_part = (f'{{"oldPath": "UP_00225.upl", "newPath": "{schedule_bin}"}}')
+    row = ["Rename", 
+               "padre-padre-filemanager-fidl", 
+               "padre-obc", 
+               json_part, 
+               "", 
+               "100", 
+               ""]
+    writer.writerow(row)
 
 # -----------------------------------------------------------------------------
 # Step 3: Write the obc_download_Sci_Files_.csv using the new file names.
@@ -145,29 +157,57 @@ def convert_string_to_decimal_list(s):
 #  "Data": [<decimal list>], "DataLen": "<length>"};;100;
 # Then add an extra row to upload "schedule_03.bin" in a similar format.
 # -----------------------------------------------------------------------------
-with open("fileUpload.csv", "w", newline="") as csvfile:
+with open("fileUpload_schedule.csv", "w", newline="") as csvfile:
     writer = csv.writer(csvfile, delimiter=";")
-    # Write a row for each file mapping:
-    for mapping in file_mappings:
-        new_name = mapping["new"]
-        dec_list = convert_string_to_decimal_list(new_name)
-        data_str = "[" + ",".join(dec_list) + "]"
-        data_len = len(dec_list)
-        json_part = (f'{{"cmdData": {{"Identifier": "8217", "Cmd": {{"value": 96}}, "Type": {{"value": 87}}, '
-                     f'"Data": {data_str}, "DataLen": "{data_len}"}}}}')
-        row = ["SXBand_GwSendCmd", "padre-padre-filemanager-fidl", "padre-obc", json_part, "", "100", ""]
-        writer.writerow(row)
+    # # Write a row for each file mapping:
+    # for mapping in file_mappings:
+    #     new_name = mapping["new"]
+    #     dec_list = convert_string_to_decimal_list(new_name)
+    #     data_str = "[" + ",".join(dec_list) + "]"
+    #     data_len = len(dec_list)
+    #     json_part = (f'{{"cmdData": {{"Identifier": "8217", "Cmd": {{"value": 96}}, "Type": {{"value": 87}}, '
+    #                  f'"Data": {data_str}, "DataLen": "{data_len}"}}}}')
+    #     row = ["SXBand_GwSendCmd", "padre-padre-obc-cp-gw-fidl", "padre-obc", json_part, "", "15", ""]
+    #     writer.writerow(row)
     
-    # Now add an extra row for "schedule_03.bin":
-    schedule_bin = "schedule_03.bin"
-    dec_list = convert_string_to_decimal_list(schedule_bin)
-    data_str = "[" + ",".join(dec_list) + "]"
-    data_len = len(dec_list)
-    json_part = (f'{{"Identifier": "8217", "Cmd": {{"value": 96}}, "Type": {{"value": 87}}, '
-                 f'"Data": {data_str}, "DataLen": "{data_len}"}}')
-    row = ["SXBand_GwSendCmd", "padre-padre-filemanager-fidl", "padre-obc", json_part, "", "100", ""]
-    writer.writerow(row)
+    # # Now add an extra row for "schedule_03.bin":
+    # schedule_bin = "schedule_03.bin"
+    # dec_list = convert_string_to_decimal_list(schedule_bin)
+    # data_str = "[" + ",".join(dec_list) + "]"
+    # data_len = len(dec_list)
+    # json_part = (f'{{"cmdData": {{"Identifier": "8217", "Cmd": {{"value": 96}}, "Type": {{"value": 87}}, '
+    #              f'"Data": {data_str}, "DataLen": "{data_len}"}}}}')
+    # row = ["SXBand_GwSendCmd", "padre-padre-obc-cp-gw-fidl", "padre-obc", json_part, "", "100", ""]
+    # writer.writerow(row)
 
+    csvfile.write("cmd,type,data\n")
+    # f.write("0x09,R,\n")
+    # f.write("0x09,W,000503030107000000010000020000000202070700050000\n")
+    # f.write("0x30,W,\n")
+    for mapping in file_mappings:
+        # Writes: 0x70,W,"file-0"
+        csvfile.write(f'0x60,W,"{mapping["new"]}"\n')
+        csvfile.write(f'0x60,W,""\n')
+        csvfile.write(f'0x60,W,""\n')
+        csvfile.write(f'0x60,W,""\n')
+        csvfile.write(f'0x60,W,""\n')
+        csvfile.write(f'0x60,W,""\n')
+        csvfile.write(f'0x60,W,""\n')
+    csvfile.write("0x31,W,\n")
+
+command = [
+    "python", "sxband_cmd_list_create.py",
+    "--input-file", "fileUpload_schedule.csv",
+    "--output-file", "fileUpload_schedule.bin",
+    "-sfn", "fileUpload_schedule.sfn",
+    "--device-id", "8217"
+]
+
+try:
+    subprocess.run(command, check=True)
+    print("External script sxband_cmd_list_create.py executed successfully.")
+except subprocess.CalledProcessError as e:
+    print("Error running sxband_cmd_list_create.py:", e)
 # -----------------------------------------------------------------------------
 # Step 5: Write the schedule_03.csv.
 # Format:
@@ -182,12 +222,18 @@ with open("fileUpload.csv", "w", newline="") as csvfile:
 # -----------------------------------------------------------------------------
 with open("schedule_03.csv", "w", newline="") as f:
     f.write("cmd,type,data\n")
-    f.write("0x09,R,\n")
-    f.write("0x09,W,000503030107000000010000020000000202070700050000\n")
-    f.write("0x30,W,\n")
+    # f.write("0x09,R,\n")
+    # f.write("0x09,W,000503030107000000010000020000000202070700050000\n")
+    # f.write("0x30,W,\n")
     for mapping in file_mappings:
         # Writes: 0x70,W,"file-0"
         f.write(f'0x70,W,"{mapping["new"]}"\n')
+        f.write(f'0x70,W,""\n')
+        f.write(f'0x70,W,""\n')
+        f.write(f'0x70,W,""\n')
+        f.write(f'0x70,W,""\n')
+        f.write(f'0x70,W,""\n')
+        f.write(f'0x70,W,""\n')
     f.write("0x31,W,\n")
 
 # -----------------------------------------------------------------------------
@@ -216,3 +262,39 @@ except subprocess.CalledProcessError as e:
     print("Error running sxband_cmd_list_create.py:", e)
 
 print(f"Generated files:\n  {lookup_csv_filename}\n  rename_files.csv\n  obc_download_Sci_Files.csv\n  fileUpload.csv\n  schedule_03.csv")
+
+# -----------------------------------------------------------------------------
+# Additional Step: Create a swapped rename CSV.
+# This CSV will be formatted as:
+# Rename;padre-padre-filemanager-fidl;padre-obc;{"oldPath": "[new file name]", "newFileName": "[OG filename]"};;100;
+# -----------------------------------------------------------------------------
+with open("rename_files_swapped.csv", "w", newline="") as csvfile:
+    writer = csv.writer(csvfile, delimiter=";", lineterminator="\n")
+    for mapping in file_mappings:
+        # Swap the identifiers: use the new file name as oldPath and the original filename as newFileName.
+        json_part = f'{{"oldPath": "{mapping["new"]}", "newPath": "{mapping["old"]}"}}'
+        row = ["Rename", "padre-padre-filemanager-fidl", "padre-obc", json_part, "", "100", ""]
+        writer.writerow(row)
+
+print("Swapped rename CSV 'rename_files_swapped.csv' generated.")
+
+# -----------------------------------------------------------------------------
+# Additional Step 2: Create a delete files csv.
+# This CSV will be formatted as:
+# Delete;padre-padre-filemanager-fidl;padre-obc;{"Path": "[new file name]"};;100;
+# -----------------------------------------------------------------------------
+
+with open("delete_files.csv", "w", newline="") as csvfile:
+    writer = csv.writer(csvfile, delimiter=";", lineterminator="\n")
+    for mapping in file_mappings:
+        row = ["Delete", 
+               "padre-padre-filemanager-fidl", 
+               "padre-obc", 
+               f'{{"Path": "{mapping['new']}"}}', 
+               "", 
+               "50", 
+               ""]
+        writer.writerow(row)
+
+print("Delete files CSV 'delete_files.csv' generated.") 
+# -----------------------------------------------------------------------------
