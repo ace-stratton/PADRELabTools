@@ -2,7 +2,7 @@
 # * @file EPSII_BP_1ClientApp.py
 # * @brief MAC FP client Python implementation generator
 # ********************************************************************************************
-# * @version           interface EPSII_BP_1 v4.0
+# * @version           interface EPSII_BP_1 v5.0
 # *
 # * @copyright         (C) Copyright EnduroSat
 # *
@@ -17,13 +17,13 @@
 # * all changes will be overwritten !!!
 # ********************************************************************************************
 
-from SerDesHelpers import SerDesHelpers
+from .SerDesHelpers import SerDesHelpers
 
 class FP_API_EPSII_BP_1:
     def __init__(self, rawSerDesSupport : bool = False):
         self.const_EPSII_BP_1_PROTOCOL_ID = 21
         self.rawSerDesSupport = rawSerDesSupport
-        self.versionMajor=4
+        self.versionMajor=5
         self.versionMinor=0
 
 
@@ -35,15 +35,14 @@ class FP_API_EPSII_BP_1:
         self.responseParsersDict[2] = self.resp_GetRAWSensors
         self.responseParsersDict[3] = self.resp_GetBatteryInfo
         self.responseParsersDict[4] = self.resp_GetDeviceHealthInfo
-        self.responseParsersDict[5] = self.resp_SetBatHeaterSettings
-        self.responseParsersDict[6] = self.resp_GetBatHeaterSettings
+        self.responseParsersDict[80] = self.resp_SetBatHeaterSettings
+        self.responseParsersDict[81] = self.resp_GetBatHeaterSettings
         self.responseParsersDict[7] = self.resp_SetBasicSettings
         self.responseParsersDict[8] = self.resp_GetBasicSettings
         self.responseParsersDict[11] = self.resp_GetBasicAppExceptions
         self.responseParsersDict[12] = self.resp_GetBasicAppErrCounters
         self.responseParsersDict[13] = self.resp_GetMainAppExceptions
         self.responseParsersDict[14] = self.resp_GetMainAppErrCounters
-        self.responseParsersDict[48] = self.resp_GetMainAppErrCounters2
         self.responseParsersDict[15] = self.resp_OnESCP_ResetMainAppErrCounters
         self.responseParsersDict[16] = self.resp_OnESCP_ResetMainAppExceptions
         self.responseParsersDict[17] = self.resp_OnESCP_ResetBasicAppErrCounters
@@ -388,7 +387,7 @@ class FP_API_EPSII_BP_1:
             return 2
     
     class struct_SDiagErrCounter:
-        def __init__(self, uint16__EDC_NONE = 0, uint16__EDC_OSC_EXT_SINGLE_FAILED_CNTR = 0, uint16__EDC_OSC_EXT_PERMANENT_FAILED_CNTR = 0, uint16__EDC_LF_OSC_BACKUP_CNTR = 0, uint16__EDC_SYSSNIV__ACCTEIFG = 0, uint16__EDC_SYSSNIV__MPUSEGPIFG = 0, uint16__EDC_SYSSNIV__MPUSEGIIFG = 0, uint16__EDC_SYSSNIV__MPUSEG1IFG = 0, uint16__EDC_SYSSNIV__MPUSEG2IFG = 0, uint16__EDC_SYSSNIV__MPUSEG3IFG = 0, uint16__EDC_SYSSNIV__VMAIFG = 0, uint16__EDC_SYSSNIV__JMBINIFG = 0, uint16__EDC_SYSSNIV__JMBOUTIFG = 0, uint16__EDC_SYSSNIV__CBDIFG = 0, uint16__EDC_SYSSNIV__WPROT = 0, uint16__EDC_SYSSNIV__LEATO = 0, uint16__EDC_SYSSNIV__LEACMD = 0, uint16__EDC_ADC_REF_SETTLE_FAIL_CNTR = 0, uint16__EDC_ADC_CONV_TIMEOUT = 0, uint16__EDC_ADC_REF_BUSSY_CNTR = 0, uint16__EDC_ADC_STUCK_IN_PREV_CONV = 0, uint16__EDC_NVM_NO_FREE_MEMORY = 0, uint16__EDC_NVM_SEGMENT_NOT_FOUND = 0, uint16__EDC_BL_CHECKER_PART1_CORRUPTED = 0, uint16__EDC_BL_CHECKER_PART2_CORRUPTED = 0, uint16__EDC_BL_CHECKER_PART3_CORRUPTED = 0, uint16__EDC_BL_CHECKER_PART4_CORRUPTED = 0, uint16__EDC_BL_IMPLEMENTATION_PART1_CORRUPTED = 0, uint16__EDC_BL_IMPLEMENTATION_PART2_CORRUPTED = 0, uint16__EDC_NVM_HDR_PART1_CORRUPTED = 0, uint16__EDC_NVM_HDR_PART2_CORRUPTED = 0, uint16__EDC_NVM_PART1_CORRUPTED = 0, uint16__EDC_NVM_PART2_CORRUPTED = 0, uint16__EDC_EXT_BASICAPP_PART1_CORRUPTED = 0, uint16__EDC_EXT_BASICAPP_PART2_CORRUPTED = 0, uint16__EDC_EXT_BASICAPP_PART3_CORRUPTED = 0, uint16__EDC_EXT_MAINAPP_PART1_CORRUPTED = 0, uint16__EDC_EXT_MAINAPP_PART2_CORRUPTED = 0, uint16__EDC_EXT_MAINAPP_PART3_CORRUPTED = 0, uint16__EDC_CBDIFG_FRAM_CORRECTABLE_BIT = 0, uint16__EDC_RST_TOTAL = 0, uint16__EDC_RST_BROWNOUT = 0, uint16__EDC_RST_RSTIFG = 0, uint16__EDC_RST_PMMSWBOR = 0, uint16__EDC_RST_LPM_X_5_WAKE = 0, uint16__EDC_RST_SECURITY_VIOLATION = 0, uint16__EDC_RST_RES1 = 0, uint16__EDC_RST_SVSHIFG = 0, uint16__EDC_RST_RES2 = 0, uint16__EDC_RST_RES3 = 0, uint16__EDC_RST_PMMSWPOR = 0, uint16__EDC_RST_WDTIFG = 0, uint16__EDC_RST_WDTPW = 0, uint16__EDC_RST_FRCTLPW = 0, uint16__EDC_RST_FRAM_BIT_ERR = 0, uint16__EDC_RST_PER_FETCH = 0, uint16__EDC_RST_PMMPW = 0, uint16__EDC_RST_MPUPW = 0, uint16__EDC_RST_CSPW = 0, uint16__EDC_RST_MPUSEGIPIFG = 0, uint16__EDC_RST_MPUSEGIIFG = 0, uint16__EDC_RST_MPUSEG1IFG = 0, uint16__EDC_RST_MPUSEG2IFG = 0, uint16__EDC_RST_MPUSEG3IFG = 0, uint16__EDC_BAL_CONFIG_INVALID = 0, uint16__EDC_CHRG_CONFIG_INVALID = 0, uint16__EDC_SUCCESSFULL_POWERDOWN_COUNTER = 0, uint16__EDC_CHRG_CANT_APPLY_CONFIG_2 = 0, uint16__EDC_MAC_SYS1_TX_COLLISION = 0, uint16__EDC_MAC_SYS1_TX_TIMEOUT = 0, uint16__EDC_MAC_SYS1_RX_MSG_WITH_ZERRO_SIZE = 0, uint16__EDC_MAC_SYS1_RX_MSG_WITH_WRONG_HDR_CRC = 0, uint16__EDC_MAC_SYS1_RX_MSG_WITH_WRONG_MSG_CRC = 0, uint16__EDC_MAC_SYS1_RX_COLLISION = 0, uint16__EDC_MAC_SYS1_RX_MSG_MISS_NO_BUFFER = 0, uint16__EDC_MAC_SYS1_RX_TIMEOUT = 0, uint16__EDC_MAC_SYS1_RX_RESTARTED_MSGS = 0, uint16__EDC_MAC_SYS1_RX_INTER_BYTE_MAX_TIME = 0, uint16__EDC_MAC_SYS2_TX_COLLISION = 0, uint16__EDC_MAC_SYS2_TX_TIMEOUT = 0, uint16__EDC_MAC_SYS2_RX_MSG_WITH_ZERRO_SIZE = 0, uint16__EDC_MAC_SYS2_RX_MSG_WITH_WRONG_HDR_CRC = 0, uint16__EDC_MAC_SYS2_RX_MSG_WITH_WRONG_MSG_CRC = 0, uint16__EDC_MAC_SYS2_RX_COLLISION = 0, uint16__EDC_MAC_SYS2_RX_MSG_MISS_NO_BUFFER = 0, uint16__EDC_MAC_SYS2_RX_TIMEOUT = 0, uint16__EDC_MAC_SYS2_RX_RESTARTED_MSGS = 0, uint16__EDC_MAC_SYS2_RX_INTER_BYTE_MAX_TIME = 0, uint16__EDC_MAC_PAY1_TX_COLLISION = 0, uint16__EDC_MAC_PAY1_TX_TIMEOUT = 0, uint16__EDC_MAC_PAY1_RX_MSG_WITH_ZERRO_SIZE = 0, uint16__EDC_MAC_PAY1_RX_MSG_WITH_WRONG_HDR_CRC = 0, uint16__EDC_MAC_PAY1_RX_MSG_WITH_WRONG_MSG_CRC = 0, uint16__EDC_MAC_PAY1_RX_COLLISION = 0, uint16__EDC_MAC_PAY1_RX_MSG_MISS_NO_BUFFER = 0, uint16__EDC_MAC_PAY1_RX_TIMEOUT = 0, uint16__EDC_MAC_PAY1_RX_RESTARTED_MSGS = 0, uint16__EDC_MAC_PAY1_RX_INTER_BYTE_MAX_TIME = 0, uint16__EDC_MAC_PAY2_TX_COLLISION = 0, uint16__EDC_MAC_PAY2_TX_TIMEOUT = 0, uint16__EDC_MAC_PAY2_RX_MSG_WITH_ZERRO_SIZE = 0, uint16__EDC_MAC_PAY2_RX_MSG_WITH_WRONG_HDR_CRC = 0, uint16__EDC_MAC_PAY2_RX_MSG_WITH_WRONG_MSG_CRC = 0, uint16__EDC_MAC_PAY2_RX_COLLISION = 0, uint16__EDC_MAC_PAY2_RX_MSG_MISS_NO_BUFFER = 0, uint16__EDC_MAC_PAY2_RX_TIMEOUT = 0, uint16__EDC_MAC_PAY2_RX_RESTARTED_MSGS = 0, uint16__EDC_MAC_PAY2_RX_INTER_BYTE_MAX_TIME = 0, uint16__EDC_CPU_UP_TIME_LO = 0, uint16__EDC_CPU_UP_TIME_HI = 0, uint16__EDC_CPU_MAIN_LOOP_MAX_TIME = 0, uint16__EDC_BAL_ISL94202IRTZ_RE_APPLY_CNF_CNTR = 0, uint16__EDC_LT8491_FORCE_RE_APPLY_CNF_RAM_CNTR = 0, uint16__EDC_LT8491_FORCE_RE_APPLY_CNF_ROM_CNTR = 0, uint16__EDC_CONOPS_ENTER_IN_NOHIB_COUNTER = 0, uint16__EDC_LT8491_CHIP_RESET_DURING_EEPROMWRITE_CNTR = 0, uint16__EDC_INIT_CONFIG_NVM_1_CORRUPTED = 0, uint16__EDC_INIT_CONFIG_NVM_2_CORRUPTED = 0, uint16__EDC_EXT_FRAM_PROBE_FAILED = 0, uint16__EDC_NVM_ALLOCATED_SIZE = 0, uint16__EDC_NVM_USED_SIZE = 0, uint16__EDC_BASIC_SETTINGS_NVM_CORRUPTED = 0, uint16__EDC_CONOPS_ENTER_IN_BATTERY_COUNTER = 0):
+        def __init__(self, uint16__EDC_NONE = 0, uint16__EDC_OSC_EXT_SINGLE_FAILED_CNTR = 0, uint16__EDC_OSC_EXT_PERMANENT_FAILED_CNTR = 0, uint16__EDC_LF_OSC_BACKUP_CNTR = 0, uint16__EDC_SYSSNIV__ACCTEIFG = 0, uint16__EDC_SYSSNIV__MPUSEGPIFG = 0, uint16__EDC_SYSSNIV__MPUSEGIIFG = 0, uint16__EDC_SYSSNIV__MPUSEG1IFG = 0, uint16__EDC_SYSSNIV__MPUSEG2IFG = 0, uint16__EDC_SYSSNIV__MPUSEG3IFG = 0, uint16__EDC_SYSSNIV__VMAIFG = 0, uint16__EDC_SYSSNIV__JMBINIFG = 0, uint16__EDC_SYSSNIV__JMBOUTIFG = 0, uint16__EDC_SYSSNIV__CBDIFG = 0, uint16__EDC_SYSSNIV__WPROT = 0, uint16__EDC_SYSSNIV__LEATO = 0, uint16__EDC_SYSSNIV__LEACMD = 0, uint16__EDC_ADC_REF_SETTLE_FAIL_CNTR = 0, uint16__EDC_ADC_CONV_TIMEOUT = 0, uint16__EDC_ADC_REF_BUSSY_CNTR = 0, uint16__EDC_ADC_STUCK_IN_PREV_CONV = 0, uint16__EDC_NVM_NO_FREE_MEMORY = 0, uint16__EDC_NVM_SEGMENT_NOT_FOUND = 0, uint16__EDC_BL_CHECKER_PART1_CORRUPTED = 0, uint16__EDC_BL_CHECKER_PART2_CORRUPTED = 0, uint16__EDC_BL_CHECKER_PART3_CORRUPTED = 0, uint16__EDC_BL_CHECKER_PART4_CORRUPTED = 0, uint16__EDC_BL_IMPLEMENTATION_PART1_CORRUPTED = 0, uint16__EDC_BL_IMPLEMENTATION_PART2_CORRUPTED = 0, uint16__EDC_NVM_HDR_PART1_CORRUPTED = 0, uint16__EDC_NVM_HDR_PART2_CORRUPTED = 0, uint16__EDC_NVM_PART1_CORRUPTED = 0, uint16__EDC_NVM_PART2_CORRUPTED = 0, uint16__EDC_EXT_BASICAPP_PART1_CORRUPTED = 0, uint16__EDC_EXT_BASICAPP_PART2_CORRUPTED = 0, uint16__EDC_EXT_BASICAPP_PART3_CORRUPTED = 0, uint16__EDC_EXT_MAINAPP_PART1_CORRUPTED = 0, uint16__EDC_EXT_MAINAPP_PART2_CORRUPTED = 0, uint16__EDC_EXT_MAINAPP_PART3_CORRUPTED = 0, uint16__EDC_CBDIFG_FRAM_CORRECTABLE_BIT = 0, uint16__EDC_RST_TOTAL = 0, uint16__EDC_RST_BROWNOUT = 0, uint16__EDC_RST_RSTIFG = 0, uint16__EDC_RST_PMMSWBOR = 0, uint16__EDC_RST_LPM_X_5_WAKE = 0, uint16__EDC_RST_SECURITY_VIOLATION = 0, uint16__EDC_RST_RES1 = 0, uint16__EDC_RST_SVSHIFG = 0, uint16__EDC_RST_RES2 = 0, uint16__EDC_RST_RES3 = 0, uint16__EDC_RST_PMMSWPOR = 0, uint16__EDC_RST_WDTIFG = 0, uint16__EDC_RST_WDTPW = 0, uint16__EDC_RST_FRCTLPW = 0, uint16__EDC_RST_FRAM_BIT_ERR = 0, uint16__EDC_RST_PER_FETCH = 0, uint16__EDC_RST_PMMPW = 0, uint16__EDC_RST_MPUPW = 0, uint16__EDC_RST_CSPW = 0, uint16__EDC_RST_MPUSEGIPIFG = 0, uint16__EDC_RST_MPUSEGIIFG = 0, uint16__EDC_RST_MPUSEG1IFG = 0, uint16__EDC_RST_MPUSEG2IFG = 0, uint16__EDC_RST_MPUSEG3IFG = 0, uint16__EDC_BAL_CONFIG_INVALID = 0, uint16__EDC_CHRG_CONFIG_INVALID = 0, uint16__EDC_SUCCESSFULL_POWERDOWN_COUNTER = 0, uint16__EDC_CHRG_CANT_APPLY_CONFIG_2 = 0, uint16__EDC_MAC_SYS1_TX_COLLISION = 0, uint16__EDC_MAC_SYS1_TX_TIMEOUT = 0, uint16__EDC_MAC_SYS1_RX_MSG_WITH_ZERRO_SIZE = 0, uint16__EDC_MAC_SYS1_RX_MSG_WITH_WRONG_HDR_CRC = 0, uint16__EDC_MAC_SYS1_RX_MSG_WITH_WRONG_MSG_CRC = 0, uint16__EDC_MAC_SYS1_RX_COLLISION = 0, uint16__EDC_MAC_SYS1_RX_MSG_MISS_NO_BUFFER = 0, uint16__EDC_MAC_SYS1_RX_TIMEOUT = 0, uint16__EDC_MAC_SYS1_RX_RESTARTED_MSGS = 0, uint16__EDC_MAC_SYS1_RX_INTER_BYTE_MAX_TIME = 0, uint16__HEATER_NVM_CORRUPTION = 0, uint16__HEATER_NVM_INVALID_SETTINGS = 0, uint16__RESERVED_03 = 0, uint16__RESERVED_04 = 0, uint16__RESERVED_05 = 0, uint16__RESERVED_06 = 0, uint16__RESERVED_07 = 0, uint16__RESERVED_08 = 0, uint16__RESERVED_09 = 0, uint16__RESERVED_10 = 0, uint16__EDC_MAC_PAY1_TX_COLLISION = 0, uint16__EDC_MAC_PAY1_TX_TIMEOUT = 0, uint16__EDC_MAC_PAY1_RX_MSG_WITH_ZERRO_SIZE = 0, uint16__EDC_MAC_PAY1_RX_MSG_WITH_WRONG_HDR_CRC = 0, uint16__EDC_MAC_PAY1_RX_MSG_WITH_WRONG_MSG_CRC = 0, uint16__EDC_MAC_PAY1_RX_COLLISION = 0, uint16__EDC_MAC_PAY1_RX_MSG_MISS_NO_BUFFER = 0, uint16__EDC_MAC_PAY1_RX_TIMEOUT = 0, uint16__EDC_MAC_PAY1_RX_RESTARTED_MSGS = 0, uint16__EDC_MAC_PAY1_RX_INTER_BYTE_MAX_TIME = 0, uint16__EDC_CONOPS_ENTER_IN_BATTERY_COUNTER = 0, uint16__EDC_CONOPS_ENTER_IN_PANEL_COUNTER = 0, uint16__EDC_CONOPS_ENTER_IN_HIB_COUNTER = 0, uint16__RESERVED_11 = 0, uint16__RESERVED_12 = 0, uint16__RESERVED_13 = 0, uint16__RESERVED_14 = 0, uint16__RESERVED_15 = 0, uint16__RESERVED_16 = 0, uint16__RESERVED_17 = 0, uint16__EDC_CPU_UP_TIME_LO = 0, uint16__EDC_CPU_UP_TIME_HI = 0, uint16__EDC_CPU_MAIN_LOOP_MAX_TIME = 0, uint16__EDC_BAL_ISL94202IRTZ_RE_APPLY_CNF_CNTR = 0, uint16__EDC_LT8491_FORCE_RE_APPLY_CNF_RAM_CNTR = 0, uint16__EDC_LT8491_FORCE_RE_APPLY_CNF_ROM_CNTR = 0, uint16__EDC_CONOPS_ENTER_IN_NOHIB_COUNTER = 0, uint16__EDC_LT8491_CHIP_RESET_DURING_EEPROMWRITE_CNTR = 0, uint16__EDC_INIT_CONFIG_NVM_1_CORRUPTED = 0, uint16__EDC_INIT_CONFIG_NVM_2_CORRUPTED = 0, uint16__EDC_EXT_FRAM_PROBE_FAILED = 0, uint16__EDC_NVM_ALLOCATED_SIZE = 0, uint16__EDC_NVM_USED_SIZE = 0, uint16__EDC_BASIC_SETTINGS_NVM_CORRUPTED = 0, uint16__RESERVED_18 = 0):
             self.uint16__EDC_NONE = uint16__EDC_NONE
             self.uint16__EDC_OSC_EXT_SINGLE_FAILED_CNTR = uint16__EDC_OSC_EXT_SINGLE_FAILED_CNTR
             self.uint16__EDC_OSC_EXT_PERMANENT_FAILED_CNTR = uint16__EDC_OSC_EXT_PERMANENT_FAILED_CNTR
@@ -467,16 +466,16 @@ class FP_API_EPSII_BP_1:
             self.uint16__EDC_MAC_SYS1_RX_TIMEOUT = uint16__EDC_MAC_SYS1_RX_TIMEOUT
             self.uint16__EDC_MAC_SYS1_RX_RESTARTED_MSGS = uint16__EDC_MAC_SYS1_RX_RESTARTED_MSGS
             self.uint16__EDC_MAC_SYS1_RX_INTER_BYTE_MAX_TIME = uint16__EDC_MAC_SYS1_RX_INTER_BYTE_MAX_TIME
-            self.uint16__EDC_MAC_SYS2_TX_COLLISION = uint16__EDC_MAC_SYS2_TX_COLLISION
-            self.uint16__EDC_MAC_SYS2_TX_TIMEOUT = uint16__EDC_MAC_SYS2_TX_TIMEOUT
-            self.uint16__EDC_MAC_SYS2_RX_MSG_WITH_ZERRO_SIZE = uint16__EDC_MAC_SYS2_RX_MSG_WITH_ZERRO_SIZE
-            self.uint16__EDC_MAC_SYS2_RX_MSG_WITH_WRONG_HDR_CRC = uint16__EDC_MAC_SYS2_RX_MSG_WITH_WRONG_HDR_CRC
-            self.uint16__EDC_MAC_SYS2_RX_MSG_WITH_WRONG_MSG_CRC = uint16__EDC_MAC_SYS2_RX_MSG_WITH_WRONG_MSG_CRC
-            self.uint16__EDC_MAC_SYS2_RX_COLLISION = uint16__EDC_MAC_SYS2_RX_COLLISION
-            self.uint16__EDC_MAC_SYS2_RX_MSG_MISS_NO_BUFFER = uint16__EDC_MAC_SYS2_RX_MSG_MISS_NO_BUFFER
-            self.uint16__EDC_MAC_SYS2_RX_TIMEOUT = uint16__EDC_MAC_SYS2_RX_TIMEOUT
-            self.uint16__EDC_MAC_SYS2_RX_RESTARTED_MSGS = uint16__EDC_MAC_SYS2_RX_RESTARTED_MSGS
-            self.uint16__EDC_MAC_SYS2_RX_INTER_BYTE_MAX_TIME = uint16__EDC_MAC_SYS2_RX_INTER_BYTE_MAX_TIME
+            self.uint16__HEATER_NVM_CORRUPTION = uint16__HEATER_NVM_CORRUPTION
+            self.uint16__HEATER_NVM_INVALID_SETTINGS = uint16__HEATER_NVM_INVALID_SETTINGS
+            self.uint16__RESERVED_03 = uint16__RESERVED_03
+            self.uint16__RESERVED_04 = uint16__RESERVED_04
+            self.uint16__RESERVED_05 = uint16__RESERVED_05
+            self.uint16__RESERVED_06 = uint16__RESERVED_06
+            self.uint16__RESERVED_07 = uint16__RESERVED_07
+            self.uint16__RESERVED_08 = uint16__RESERVED_08
+            self.uint16__RESERVED_09 = uint16__RESERVED_09
+            self.uint16__RESERVED_10 = uint16__RESERVED_10
             self.uint16__EDC_MAC_PAY1_TX_COLLISION = uint16__EDC_MAC_PAY1_TX_COLLISION
             self.uint16__EDC_MAC_PAY1_TX_TIMEOUT = uint16__EDC_MAC_PAY1_TX_TIMEOUT
             self.uint16__EDC_MAC_PAY1_RX_MSG_WITH_ZERRO_SIZE = uint16__EDC_MAC_PAY1_RX_MSG_WITH_ZERRO_SIZE
@@ -487,16 +486,16 @@ class FP_API_EPSII_BP_1:
             self.uint16__EDC_MAC_PAY1_RX_TIMEOUT = uint16__EDC_MAC_PAY1_RX_TIMEOUT
             self.uint16__EDC_MAC_PAY1_RX_RESTARTED_MSGS = uint16__EDC_MAC_PAY1_RX_RESTARTED_MSGS
             self.uint16__EDC_MAC_PAY1_RX_INTER_BYTE_MAX_TIME = uint16__EDC_MAC_PAY1_RX_INTER_BYTE_MAX_TIME
-            self.uint16__EDC_MAC_PAY2_TX_COLLISION = uint16__EDC_MAC_PAY2_TX_COLLISION
-            self.uint16__EDC_MAC_PAY2_TX_TIMEOUT = uint16__EDC_MAC_PAY2_TX_TIMEOUT
-            self.uint16__EDC_MAC_PAY2_RX_MSG_WITH_ZERRO_SIZE = uint16__EDC_MAC_PAY2_RX_MSG_WITH_ZERRO_SIZE
-            self.uint16__EDC_MAC_PAY2_RX_MSG_WITH_WRONG_HDR_CRC = uint16__EDC_MAC_PAY2_RX_MSG_WITH_WRONG_HDR_CRC
-            self.uint16__EDC_MAC_PAY2_RX_MSG_WITH_WRONG_MSG_CRC = uint16__EDC_MAC_PAY2_RX_MSG_WITH_WRONG_MSG_CRC
-            self.uint16__EDC_MAC_PAY2_RX_COLLISION = uint16__EDC_MAC_PAY2_RX_COLLISION
-            self.uint16__EDC_MAC_PAY2_RX_MSG_MISS_NO_BUFFER = uint16__EDC_MAC_PAY2_RX_MSG_MISS_NO_BUFFER
-            self.uint16__EDC_MAC_PAY2_RX_TIMEOUT = uint16__EDC_MAC_PAY2_RX_TIMEOUT
-            self.uint16__EDC_MAC_PAY2_RX_RESTARTED_MSGS = uint16__EDC_MAC_PAY2_RX_RESTARTED_MSGS
-            self.uint16__EDC_MAC_PAY2_RX_INTER_BYTE_MAX_TIME = uint16__EDC_MAC_PAY2_RX_INTER_BYTE_MAX_TIME
+            self.uint16__EDC_CONOPS_ENTER_IN_BATTERY_COUNTER = uint16__EDC_CONOPS_ENTER_IN_BATTERY_COUNTER
+            self.uint16__EDC_CONOPS_ENTER_IN_PANEL_COUNTER = uint16__EDC_CONOPS_ENTER_IN_PANEL_COUNTER
+            self.uint16__EDC_CONOPS_ENTER_IN_HIB_COUNTER = uint16__EDC_CONOPS_ENTER_IN_HIB_COUNTER
+            self.uint16__RESERVED_11 = uint16__RESERVED_11
+            self.uint16__RESERVED_12 = uint16__RESERVED_12
+            self.uint16__RESERVED_13 = uint16__RESERVED_13
+            self.uint16__RESERVED_14 = uint16__RESERVED_14
+            self.uint16__RESERVED_15 = uint16__RESERVED_15
+            self.uint16__RESERVED_16 = uint16__RESERVED_16
+            self.uint16__RESERVED_17 = uint16__RESERVED_17
             self.uint16__EDC_CPU_UP_TIME_LO = uint16__EDC_CPU_UP_TIME_LO
             self.uint16__EDC_CPU_UP_TIME_HI = uint16__EDC_CPU_UP_TIME_HI
             self.uint16__EDC_CPU_MAIN_LOOP_MAX_TIME = uint16__EDC_CPU_MAIN_LOOP_MAX_TIME
@@ -511,7 +510,7 @@ class FP_API_EPSII_BP_1:
             self.uint16__EDC_NVM_ALLOCATED_SIZE = uint16__EDC_NVM_ALLOCATED_SIZE
             self.uint16__EDC_NVM_USED_SIZE = uint16__EDC_NVM_USED_SIZE
             self.uint16__EDC_BASIC_SETTINGS_NVM_CORRUPTED = uint16__EDC_BASIC_SETTINGS_NVM_CORRUPTED
-            self.uint16__EDC_CONOPS_ENTER_IN_BATTERY_COUNTER = uint16__EDC_CONOPS_ENTER_IN_BATTERY_COUNTER
+            self.uint16__RESERVED_18 = uint16__RESERVED_18
     
         def serialize(self):
             result = bytearray()
@@ -673,25 +672,25 @@ class FP_API_EPSII_BP_1:
             
             result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_MAC_SYS1_RX_INTER_BYTE_MAX_TIME)
             
-            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_MAC_SYS2_TX_COLLISION)
+            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__HEATER_NVM_CORRUPTION)
             
-            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_MAC_SYS2_TX_TIMEOUT)
+            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__HEATER_NVM_INVALID_SETTINGS)
             
-            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_MAC_SYS2_RX_MSG_WITH_ZERRO_SIZE)
+            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__RESERVED_03)
             
-            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_MAC_SYS2_RX_MSG_WITH_WRONG_HDR_CRC)
+            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__RESERVED_04)
             
-            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_MAC_SYS2_RX_MSG_WITH_WRONG_MSG_CRC)
+            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__RESERVED_05)
             
-            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_MAC_SYS2_RX_COLLISION)
+            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__RESERVED_06)
             
-            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_MAC_SYS2_RX_MSG_MISS_NO_BUFFER)
+            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__RESERVED_07)
             
-            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_MAC_SYS2_RX_TIMEOUT)
+            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__RESERVED_08)
             
-            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_MAC_SYS2_RX_RESTARTED_MSGS)
+            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__RESERVED_09)
             
-            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_MAC_SYS2_RX_INTER_BYTE_MAX_TIME)
+            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__RESERVED_10)
             
             result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_MAC_PAY1_TX_COLLISION)
             
@@ -713,25 +712,25 @@ class FP_API_EPSII_BP_1:
             
             result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_MAC_PAY1_RX_INTER_BYTE_MAX_TIME)
             
-            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_MAC_PAY2_TX_COLLISION)
+            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_CONOPS_ENTER_IN_BATTERY_COUNTER)
             
-            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_MAC_PAY2_TX_TIMEOUT)
+            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_CONOPS_ENTER_IN_PANEL_COUNTER)
             
-            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_MAC_PAY2_RX_MSG_WITH_ZERRO_SIZE)
+            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_CONOPS_ENTER_IN_HIB_COUNTER)
             
-            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_MAC_PAY2_RX_MSG_WITH_WRONG_HDR_CRC)
+            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__RESERVED_11)
             
-            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_MAC_PAY2_RX_MSG_WITH_WRONG_MSG_CRC)
+            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__RESERVED_12)
             
-            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_MAC_PAY2_RX_COLLISION)
+            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__RESERVED_13)
             
-            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_MAC_PAY2_RX_MSG_MISS_NO_BUFFER)
+            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__RESERVED_14)
             
-            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_MAC_PAY2_RX_TIMEOUT)
+            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__RESERVED_15)
             
-            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_MAC_PAY2_RX_RESTARTED_MSGS)
+            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__RESERVED_16)
             
-            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_MAC_PAY2_RX_INTER_BYTE_MAX_TIME)
+            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__RESERVED_17)
             
             result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_CPU_UP_TIME_LO)
             
@@ -761,7 +760,7 @@ class FP_API_EPSII_BP_1:
             
             result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_BASIC_SETTINGS_NVM_CORRUPTED)
             
-            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_CONOPS_ENTER_IN_BATTERY_COUNTER)
+            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__RESERVED_18)
     
             return result
     
@@ -1083,43 +1082,43 @@ class FP_API_EPSII_BP_1:
             currentPos += bytesProcessed
             
             
-            (resultInstance.uint16__EDC_MAC_SYS2_TX_COLLISION, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
+            (resultInstance.uint16__HEATER_NVM_CORRUPTION, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
             currentPos += bytesProcessed
             
             
-            (resultInstance.uint16__EDC_MAC_SYS2_TX_TIMEOUT, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
+            (resultInstance.uint16__HEATER_NVM_INVALID_SETTINGS, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
             currentPos += bytesProcessed
             
             
-            (resultInstance.uint16__EDC_MAC_SYS2_RX_MSG_WITH_ZERRO_SIZE, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
+            (resultInstance.uint16__RESERVED_03, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
             currentPos += bytesProcessed
             
             
-            (resultInstance.uint16__EDC_MAC_SYS2_RX_MSG_WITH_WRONG_HDR_CRC, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
+            (resultInstance.uint16__RESERVED_04, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
             currentPos += bytesProcessed
             
             
-            (resultInstance.uint16__EDC_MAC_SYS2_RX_MSG_WITH_WRONG_MSG_CRC, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
+            (resultInstance.uint16__RESERVED_05, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
             currentPos += bytesProcessed
             
             
-            (resultInstance.uint16__EDC_MAC_SYS2_RX_COLLISION, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
+            (resultInstance.uint16__RESERVED_06, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
             currentPos += bytesProcessed
             
             
-            (resultInstance.uint16__EDC_MAC_SYS2_RX_MSG_MISS_NO_BUFFER, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
+            (resultInstance.uint16__RESERVED_07, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
             currentPos += bytesProcessed
             
             
-            (resultInstance.uint16__EDC_MAC_SYS2_RX_TIMEOUT, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
+            (resultInstance.uint16__RESERVED_08, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
             currentPos += bytesProcessed
             
             
-            (resultInstance.uint16__EDC_MAC_SYS2_RX_RESTARTED_MSGS, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
+            (resultInstance.uint16__RESERVED_09, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
             currentPos += bytesProcessed
             
             
-            (resultInstance.uint16__EDC_MAC_SYS2_RX_INTER_BYTE_MAX_TIME, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
+            (resultInstance.uint16__RESERVED_10, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
             currentPos += bytesProcessed
             
             
@@ -1163,43 +1162,43 @@ class FP_API_EPSII_BP_1:
             currentPos += bytesProcessed
             
             
-            (resultInstance.uint16__EDC_MAC_PAY2_TX_COLLISION, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
+            (resultInstance.uint16__EDC_CONOPS_ENTER_IN_BATTERY_COUNTER, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
             currentPos += bytesProcessed
             
             
-            (resultInstance.uint16__EDC_MAC_PAY2_TX_TIMEOUT, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
+            (resultInstance.uint16__EDC_CONOPS_ENTER_IN_PANEL_COUNTER, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
             currentPos += bytesProcessed
             
             
-            (resultInstance.uint16__EDC_MAC_PAY2_RX_MSG_WITH_ZERRO_SIZE, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
+            (resultInstance.uint16__EDC_CONOPS_ENTER_IN_HIB_COUNTER, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
             currentPos += bytesProcessed
             
             
-            (resultInstance.uint16__EDC_MAC_PAY2_RX_MSG_WITH_WRONG_HDR_CRC, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
+            (resultInstance.uint16__RESERVED_11, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
             currentPos += bytesProcessed
             
             
-            (resultInstance.uint16__EDC_MAC_PAY2_RX_MSG_WITH_WRONG_MSG_CRC, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
+            (resultInstance.uint16__RESERVED_12, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
             currentPos += bytesProcessed
             
             
-            (resultInstance.uint16__EDC_MAC_PAY2_RX_COLLISION, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
+            (resultInstance.uint16__RESERVED_13, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
             currentPos += bytesProcessed
             
             
-            (resultInstance.uint16__EDC_MAC_PAY2_RX_MSG_MISS_NO_BUFFER, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
+            (resultInstance.uint16__RESERVED_14, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
             currentPos += bytesProcessed
             
             
-            (resultInstance.uint16__EDC_MAC_PAY2_RX_TIMEOUT, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
+            (resultInstance.uint16__RESERVED_15, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
             currentPos += bytesProcessed
             
             
-            (resultInstance.uint16__EDC_MAC_PAY2_RX_RESTARTED_MSGS, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
+            (resultInstance.uint16__RESERVED_16, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
             currentPos += bytesProcessed
             
             
-            (resultInstance.uint16__EDC_MAC_PAY2_RX_INTER_BYTE_MAX_TIME, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
+            (resultInstance.uint16__RESERVED_17, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
             currentPos += bytesProcessed
             
             
@@ -1259,7 +1258,7 @@ class FP_API_EPSII_BP_1:
             currentPos += bytesProcessed
             
             
-            (resultInstance.uint16__EDC_CONOPS_ENTER_IN_BATTERY_COUNTER, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
+            (resultInstance.uint16__RESERVED_18, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
             currentPos += bytesProcessed
             
     
@@ -1269,42 +1268,6 @@ class FP_API_EPSII_BP_1:
         @staticmethod
         def getSize():
             return 246
-    
-    class struct_SDiagErrCounter2:
-        def __init__(self, uint16__EDC_CONOPS_ENTER_IN_PANEL_COUNTER = 0, uint16__EDC_CONOPS_ENTER_IN_HIB_COUNTER = 0):
-            self.uint16__EDC_CONOPS_ENTER_IN_PANEL_COUNTER = uint16__EDC_CONOPS_ENTER_IN_PANEL_COUNTER
-            self.uint16__EDC_CONOPS_ENTER_IN_HIB_COUNTER = uint16__EDC_CONOPS_ENTER_IN_HIB_COUNTER
-    
-        def serialize(self):
-            result = bytearray()
-    
-            
-            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_CONOPS_ENTER_IN_PANEL_COUNTER)
-            
-            result += SerDesHelpers.serdesType_basic.serialize("uint16", self.uint16__EDC_CONOPS_ENTER_IN_HIB_COUNTER)
-    
-            return result
-    
-        @staticmethod
-        def deserialize(data, pos):
-            resultInstance = FP_API_EPSII_BP_1.struct_SDiagErrCounter2()
-    
-            currentPos = pos
-            
-            (resultInstance.uint16__EDC_CONOPS_ENTER_IN_PANEL_COUNTER, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
-            currentPos += bytesProcessed
-            
-            
-            (resultInstance.uint16__EDC_CONOPS_ENTER_IN_HIB_COUNTER, bytesProcessed) = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
-            currentPos += bytesProcessed
-            
-    
-            # tuple[1] shall contain the total number of bytes processed by the function
-            return (resultInstance, currentPos - pos)
-    
-        @staticmethod
-        def getSize():
-            return 4
     
     class enum_BP_Mode_Type:
         BP_MODE_TYPE_ROOT = 0
@@ -2333,17 +2296,17 @@ class FP_API_EPSII_BP_1:
     ############################################################################################################
     """
     Request function for FIDL method: SetBatHeaterSettings
-        - function ID: 00000005
+        - function ID: 00000050
         - description: Set batteries heaters settings
     """
-    def req_SetBatHeaterSettings(self, e__SBH_EnableBitmask__EnableBitmask, int32__NormalModeSetPointTemp, int32__HibModeSetPointTemp, uint32__PID_KP, uint32__PID_KI, uint32__PID_KD):
+    def req_SetBatHeaterSettings(self, e__SBH_EnableBitmask__EnableBitmask, int32__NormalModeSetPointTemp, int32__HibModeSetPointTemp, uint16__Hysteresis):
         requestBytes = bytearray()
     
         if not self.rawSerDesSupport:
             fpHeaderInstance = SerDesHelpers.struct_FPHeader()
     
             fpHeaderInstance.u16ProtoId = self.const_EPSII_BP_1_PROTOCOL_ID
-            fpHeaderInstance.u32FuncId = 0x00000005
+            fpHeaderInstance.u32FuncId = 0x00000050
             fpHeaderInstance.u16seqId = 0
             fpHeaderInstance.u8ErrCode = 0
     
@@ -2352,19 +2315,17 @@ class FP_API_EPSII_BP_1:
         requestBytes += FP_API_EPSII_BP_1.enum_SBH_EnableBitmask(e__SBH_EnableBitmask__EnableBitmask).serialize()
         requestBytes += SerDesHelpers.serdesType_basic.serialize("int32", int32__NormalModeSetPointTemp)
         requestBytes += SerDesHelpers.serdesType_basic.serialize("int32", int32__HibModeSetPointTemp)
-        requestBytes += SerDesHelpers.serdesType_basic.serialize("uint32", uint32__PID_KP)
-        requestBytes += SerDesHelpers.serdesType_basic.serialize("uint32", uint32__PID_KI)
-        requestBytes += SerDesHelpers.serdesType_basic.serialize("uint32", uint32__PID_KD)
+        requestBytes += SerDesHelpers.serdesType_basic.serialize("uint16", uint16__Hysteresis)
     
         if not self.rawSerDesSupport:
             return requestBytes
         else:
-            return (0x00000005, requestBytes)
+            return (0x00000050, requestBytes)
 
     ############################################################################################################
     """
     Response function for FIDL method: SetBatHeaterSettings
-        - function ID: 00000005
+        - function ID: 00000050
         - description: Set batteries heaters settings
     """
     def resp_SetBatHeaterSettings(self, data):
@@ -2374,7 +2335,7 @@ class FP_API_EPSII_BP_1:
         if not self.rawSerDesSupport:
             fpHeaderInstance, headerBytesProcessed = SerDesHelpers.struct_FPHeader.deserialize(data, 0)
     
-            if (fpHeaderInstance.u16ProtoId != self.const_EPSII_BP_1_PROTOCOL_ID) or (fpHeaderInstance.u32FuncId != 0x00000005):
+            if (fpHeaderInstance.u16ProtoId != self.const_EPSII_BP_1_PROTOCOL_ID) or (fpHeaderInstance.u32FuncId != 0x00000050):
                raise Exception("Protocol ID and/or Function ID do not match to the called response method!")
     
             currentPos = headerBytesProcessed
@@ -2391,7 +2352,7 @@ class FP_API_EPSII_BP_1:
     ############################################################################################################
     """
     Request function for FIDL method: GetBatHeaterSettings
-        - function ID: 00000006
+        - function ID: 00000051
         - description: Get current batteries heaters settings
     """
     def req_GetBatHeaterSettings(self):
@@ -2401,7 +2362,7 @@ class FP_API_EPSII_BP_1:
             fpHeaderInstance = SerDesHelpers.struct_FPHeader()
     
             fpHeaderInstance.u16ProtoId = self.const_EPSII_BP_1_PROTOCOL_ID
-            fpHeaderInstance.u32FuncId = 0x00000006
+            fpHeaderInstance.u32FuncId = 0x00000051
             fpHeaderInstance.u16seqId = 0
             fpHeaderInstance.u8ErrCode = 0
     
@@ -2411,12 +2372,12 @@ class FP_API_EPSII_BP_1:
         if not self.rawSerDesSupport:
             return requestBytes
         else:
-            return (0x00000006, requestBytes)
+            return (0x00000051, requestBytes)
 
     ############################################################################################################
     """
     Response function for FIDL method: GetBatHeaterSettings
-        - function ID: 00000006
+        - function ID: 00000051
         - description: Get current batteries heaters settings
     """
     def resp_GetBatHeaterSettings(self, data):
@@ -2426,13 +2387,17 @@ class FP_API_EPSII_BP_1:
         if not self.rawSerDesSupport:
             fpHeaderInstance, headerBytesProcessed = SerDesHelpers.struct_FPHeader.deserialize(data, 0)
     
-            if (fpHeaderInstance.u16ProtoId != self.const_EPSII_BP_1_PROTOCOL_ID) or (fpHeaderInstance.u32FuncId != 0x00000006):
+            if (fpHeaderInstance.u16ProtoId != self.const_EPSII_BP_1_PROTOCOL_ID) or (fpHeaderInstance.u32FuncId != 0x00000051):
                raise Exception("Protocol ID and/or Function ID do not match to the called response method!")
     
             currentPos = headerBytesProcessed
         else:
             currentPos = 0
     
+    
+        field, bytesProcessed = FP_API_EPSII_BP_1.enum_SBH_SetError.deserialize(data, currentPos)
+        responseInstance["e__SBH_SetError__Err"] = field
+        currentPos += bytesProcessed
     
         field, bytesProcessed = FP_API_EPSII_BP_1.enum_SBH_EnableBitmask.deserialize(data, currentPos)
         responseInstance["e__SBH_EnableBitmask__EnableBitmask"] = field
@@ -2446,16 +2411,8 @@ class FP_API_EPSII_BP_1:
         responseInstance["int32__HibModeSetPointTemp"] = field
         currentPos += bytesProcessed
     
-        field, bytesProcessed = SerDesHelpers.serdesType_basic.deserialize("uint32", data, currentPos)
-        responseInstance["uint32__PID_KP"] = field
-        currentPos += bytesProcessed
-    
-        field, bytesProcessed = SerDesHelpers.serdesType_basic.deserialize("uint32", data, currentPos)
-        responseInstance["uint32__PID_KI"] = field
-        currentPos += bytesProcessed
-    
-        field, bytesProcessed = SerDesHelpers.serdesType_basic.deserialize("uint32", data, currentPos)
-        responseInstance["uint32__PID_KD"] = field
+        field, bytesProcessed = SerDesHelpers.serdesType_basic.deserialize("uint16", data, currentPos)
+        responseInstance["uint16__Hysteresis"] = field
         currentPos += bytesProcessed
     
         return responseInstance
@@ -2773,58 +2730,6 @@ class FP_API_EPSII_BP_1:
     
         field, bytesProcessed = FP_API_EPSII_BP_1.struct_SDiagErrCounter.deserialize(data, currentPos)
         responseInstance["s__errorCounters"] = field
-        currentPos += bytesProcessed
-    
-        return responseInstance
-
-    ############################################################################################################
-    """
-    Request function for FIDL method: GetMainAppErrCounters2
-        - function ID: 00000030
-        - description: Counters for different diagnostic parameters from main app
-    """
-    def req_GetMainAppErrCounters2(self):
-        requestBytes = bytearray()
-    
-        if not self.rawSerDesSupport:
-            fpHeaderInstance = SerDesHelpers.struct_FPHeader()
-    
-            fpHeaderInstance.u16ProtoId = self.const_EPSII_BP_1_PROTOCOL_ID
-            fpHeaderInstance.u32FuncId = 0x00000030
-            fpHeaderInstance.u16seqId = 0
-            fpHeaderInstance.u8ErrCode = 0
-    
-            requestBytes += fpHeaderInstance.serialize()
-    
-    
-        if not self.rawSerDesSupport:
-            return requestBytes
-        else:
-            return (0x00000030, requestBytes)
-
-    ############################################################################################################
-    """
-    Response function for FIDL method: GetMainAppErrCounters2
-        - function ID: 00000030
-        - description: Counters for different diagnostic parameters from main app
-    """
-    def resp_GetMainAppErrCounters2(self, data):
-        # (key, value) = (output arg name, output arg data)
-        responseInstance = {}
-    
-        if not self.rawSerDesSupport:
-            fpHeaderInstance, headerBytesProcessed = SerDesHelpers.struct_FPHeader.deserialize(data, 0)
-    
-            if (fpHeaderInstance.u16ProtoId != self.const_EPSII_BP_1_PROTOCOL_ID) or (fpHeaderInstance.u32FuncId != 0x00000030):
-               raise Exception("Protocol ID and/or Function ID do not match to the called response method!")
-    
-            currentPos = headerBytesProcessed
-        else:
-            currentPos = 0
-    
-    
-        field, bytesProcessed = FP_API_EPSII_BP_1.struct_SDiagErrCounter2.deserialize(data, currentPos)
-        responseInstance["s__errorCounters2"] = field
         currentPos += bytesProcessed
     
         return responseInstance
