@@ -1,6 +1,7 @@
 import os
 import csv
 import subprocess
+import math
 from datetime import datetime, timedelta
 
 # -----------------------------------------------------------------------------
@@ -8,8 +9,8 @@ from datetime import datetime, timedelta
 #   DateTimePull    - Central time (format "YYMMDDHHMM")
 #   DurationMinutes - Window (in minutes) around DateTimePull to include files.
 # -----------------------------------------------------------------------------
-DateTimePull = "2504070309"  # e.g. "YYMMDDHHMM" (change as needed)
-DurationMinutes = 60*24         # ± minutes window (adjust as needed)
+DateTimePull = "250423233"  # e.g. "YYMMDDHHMM" (change as needed)
+DurationMinutes = 60*200    # ± minutes window (adjust as needed)
 
 # Convert the input string to a datetime object.
 try:
@@ -46,6 +47,8 @@ for line in lines:
 
     # Check: filename starts with "padreMD" or "padreSP" AND if file size is >= 500"
     if (lower_name.startswith("padremd") or lower_name.startswith("padresp")) and file_size >= 500:
+    # if (lower_name.startswith("padresp")) and file_size >= 500:
+    # if (lower_name.startswith("padremd") or lower_name.startswith("padresp")):
         # Expected filename format: padre####_YYMMDDHHMMSS.idx
         underscore_index = base_name.find("_")
         dot_index = base_name.find(".", underscore_index)
@@ -62,7 +65,8 @@ for line in lines:
                     continue  # Skip files that do not have the expected time string format
 
                 # Check if the file's timestamp is within ±DurationMinutes of the input time.
-                if abs(file_dt - dt_pull) <= timedelta(minutes=DurationMinutes):
+                if abs(file_dt - dt_pull) <= timedelta(minutes=DurationMinutes) and '_' not in fileType :
+                # if abs(file_dt - dt_pull) <= timedelta(minutes=DurationMinutes):
                     # Store the upper-case version of the base file name and its datetime.
                     matching_entries.append((base_name.upper(), file_dt, fileType, file_size))
 
@@ -108,17 +112,17 @@ with open("rename_files.csv", "w", newline="") as csvfile:
                ""]
         writer.writerow(row)
 
-    # Now add an extra row for "schedule_03.bin":
-    schedule_bin = "schedule_03.bin"
-    json_part = (f'{{"oldPath": "UP_00225.upl", "newPath": "{schedule_bin}"}}')
-    row = ["Rename", 
-               "padre-padre-filemanager-fidl", 
-               "padre-obc", 
-               json_part, 
-               "", 
-               "100", 
-               ""]
-    writer.writerow(row)
+    # # Now add an extra row for "schedule_03.bin":
+    # schedule_bin = "schedule_03.bin"
+    # json_part = (f'{{"oldPath": "UP_00225.upl", "newPath": "{schedule_bin}"}}')
+    # row = ["Rename", 
+    #            "padre-padre-filemanager-fidl", 
+    #            "padre-obc", 
+    #            json_part, 
+    #            "", 
+    #            "100", 
+    #            ""]
+    # writer.writerow(row)
 
 # -----------------------------------------------------------------------------
 # Step 3: Write the obc_download_Sci_Files_.csv using the new file names.
@@ -157,7 +161,7 @@ def convert_string_to_decimal_list(s):
 #  "Data": [<decimal list>], "DataLen": "<length>"};;100;
 # Then add an extra row to upload "schedule_03.bin" in a similar format.
 # -----------------------------------------------------------------------------
-with open("fileUpload_schedule.csv", "w", newline="") as csvfile:
+with open("schedule_04.csv", "w", newline="") as csvfile:
     writer = csv.writer(csvfile, delimiter=";")
     # # Write a row for each file mapping:
     # for mapping in file_mappings:
@@ -187,20 +191,14 @@ with open("fileUpload_schedule.csv", "w", newline="") as csvfile:
     for mapping in file_mappings:
         # Writes: 0x70,W,"file-0"
         csvfile.write(f'0x60,W,"{mapping["new"]}"\n')
-        csvfile.write(f'0x60,W,""\n')
-        csvfile.write(f'0x60,W,""\n')
-        csvfile.write(f'0x60,W,""\n')
-        csvfile.write(f'0x60,W,""\n')
-        csvfile.write(f'0x60,W,""\n')
-        csvfile.write(f'0x60,W,""\n')
     csvfile.write("0x31,W,\n")
 
 command = [
     "python", "sxband_cmd_list_create.py",
-    "--input-file", "fileUpload_schedule.csv",
-    "--output-file", "fileUpload_schedule.bin",
-    "-sfn", "fileUpload_schedule.sfn",
-    "--device-id", "8217"
+    "--input-file", "schedule_04.csv",
+    "--output-file", "schedule_04.bin",
+    "-sfn", "schedule_04.sfn",
+    "--device-id", "8729"
 ]
 
 try:
@@ -225,15 +223,19 @@ with open("schedule_03.csv", "w", newline="") as f:
     # f.write("0x09,R,\n")
     # f.write("0x09,W,000503030107000000010000020000000202070700050000\n")
     # f.write("0x30,W,\n")
+    counter = 0
     for mapping in file_mappings:
         # Writes: 0x70,W,"file-0"
         f.write(f'0x70,W,"{mapping["new"]}"\n')
-        f.write(f'0x70,W,""\n')
-        f.write(f'0x70,W,""\n')
-        f.write(f'0x70,W,""\n')
-        f.write(f'0x70,W,""\n')
-        f.write(f'0x70,W,""\n')
-        f.write(f'0x70,W,""\n')
+        # numSpaces = mapping["filesize"] // 1000000
+        # numSpaces = math.ceil(numSpaces)
+        numSpaces = 9
+        for i in range(numSpaces):
+            f.write(f'0x70,W,""\n')
+        counter += 1
+        if counter == 71:
+            break
+        
     f.write("0x31,W,\n")
 
 # -----------------------------------------------------------------------------
@@ -252,7 +254,7 @@ command = [
     "--input-file", "schedule_03.csv",
     "--output-file", "schedule_03.bin",
     "-sfn", "schedule_03.sfn",
-    "--device-id", "8217"
+    "--device-id", "8729"
 ]
 
 try:
@@ -261,7 +263,7 @@ try:
 except subprocess.CalledProcessError as e:
     print("Error running sxband_cmd_list_create.py:", e)
 
-print(f"Generated files:\n  {lookup_csv_filename}\n  rename_files.csv\n  obc_download_Sci_Files.csv\n  fileUpload.csv\n  schedule_03.csv")
+print(f"Generated files:\n  {lookup_csv_filename}\n  rename_files.csv\n  obc_download_Sci_Files.csv\n  fileUpload.csv\n  schedule_03.csv\n  schedule_04.csv\n  schedule_03.bin\n  schedule_04.bin")
 
 # -----------------------------------------------------------------------------
 # Additional Step: Create a swapped rename CSV.
@@ -276,7 +278,7 @@ with open("rename_files_swapped.csv", "w", newline="") as csvfile:
         row = ["Rename", "padre-padre-filemanager-fidl", "padre-obc", json_part, "", "100", ""]
         writer.writerow(row)
 
-print("Swapped rename CSV 'rename_files_swapped.csv' generated.")
+print("  rename_files_swapped.csv")
 
 # -----------------------------------------------------------------------------
 # Additional Step 2: Create a delete files csv.
@@ -296,5 +298,5 @@ with open("delete_files.csv", "w", newline="") as csvfile:
                ""]
         writer.writerow(row)
 
-print("Delete files CSV 'delete_files.csv' generated.") 
+print("  delete_files.csv") 
 # -----------------------------------------------------------------------------

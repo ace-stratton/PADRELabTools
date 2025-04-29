@@ -1,0 +1,4 @@
+Delete;padre-padre-filemanager-fidl;padre-obc;"{""Path"": ""schedule_03.bin""}";;50;
+Delete;padre-padre-filemanager-fidl;padre-obc;"{""Path"": ""schedule_04.bin""}";;50;
+Rename;padre-padre-filemanager-fidl;padre-obc;"{""oldPath"": ""up_00003.upl"", ""newPath"": ""schedule_03.bin""}";;100;
+Rename;padre-padre-filemanager-fidl;padre-obc;"{""oldPath"": ""up_00004.upl"", ""newPath"": ""schedule_04.bin""}";;100;

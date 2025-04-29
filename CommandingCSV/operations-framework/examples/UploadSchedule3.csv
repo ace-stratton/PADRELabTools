@@ -1,0 +1,3 @@
+Delete;padre-padre-filemanager-fidl;padre-obc;"{""Path"": ""schedule_03.bin""}";;50;
+Upload schedule_03.bin;padre-file-manager-commands;padre-obc;{"type": "obcUpload", "fileName": "schedule_03.bin", "tlPacketId": 25,"bundleId":25};;150;
+Rename;padre-padre-filemanager-fidl;padre-obc;"{""oldPath"": ""UP_00025.UPL"", ""newPath"": ""schedule_03.bin""}";;100;
