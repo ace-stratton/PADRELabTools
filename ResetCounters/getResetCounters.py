@@ -21,11 +21,11 @@ def getResetCounters():
     errors1 = values_list[40:64]
     
     
-    payloadBytes = api.req_GetMainAppErrCounters2()
-    out1 = Interface.getReturn(payloadBytes, moduleMac, api)
-    ParsedResult = vars(out1['s__errorCounters2'])
-    errors2 = list(ParsedResult.values())
+    # payloadBytes = api.req_GetMainAppErrCounters2()
+    # out1 = Interface.getReturn(payloadBytes, moduleMac, api)
+    # ParsedResult = vars(out1['s__errorCounters2'])
+    # errors2 = list(ParsedResult.values())
 
-    errors1.extend(errors2)
+    # errors1.extend(errors2)
    
     return errors1
