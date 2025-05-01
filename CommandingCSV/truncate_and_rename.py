@@ -1,6 +1,6 @@
 # === Configuration (edit these for your environment) ===
-FOLDER_PATH = "file-0-19-042824252203"      # Folder containing the .bin files
-MAPPING_CSV  = "FilenameDirectory_250423233_Gen_20250428_214552 - FilenameDirectory_250423233_Gen_20250428_214552.csv"  # Semicolon‑delimited mapping CSV
+FOLDER_PATH = "file-MeDDEA_042925_DITL"      # Folder containing the .bin files
+MAPPING_CSV  = "edited_FilenameDirectory_250423233_Gen_20250430_161019.csv"  # Semicolon‑delimited mapping CSV
 # =====================================================
 
 import os
@@ -10,7 +10,7 @@ import csv
 def truncate_and_rename(folder_path, mapping_csv):
     
     with open(mapping_csv, newline='') as csvfile:
-        reader = csv.reader(csvfile, delimiter=',')
+        reader = csv.reader(csvfile, delimiter=';')
         for row in reader:
             
             
@@ -27,7 +27,8 @@ def truncate_and_rename(folder_path, mapping_csv):
                     break
             
             
-            base_edit = base[:idx] + "-" + base[idx:]
+            # base_edit = base[:idx] + "-" + base[idx:]
+            base_edit = base[:idx] + base[idx:]
             bin_filename = f"{base_edit}.bin"
             bin_path = os.path.join(folder_path, bin_filename)
             
