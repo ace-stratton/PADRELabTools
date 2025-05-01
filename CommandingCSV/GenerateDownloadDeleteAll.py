@@ -108,7 +108,7 @@ with open("delete_files.csv", "w", newline="") as csvfile:
         row = ["Delete", 
                "padre-padre-filemanager-fidl", 
                "padre-obc", 
-               f'{{"Path": "{mapping['new']}"}}', 
+               f'{{"Path": "{mapping['old']}"}}', 
                "", 
                "50", 
                ""]
