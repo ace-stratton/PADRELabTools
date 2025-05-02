@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 #   DateTimePull    - Central time (format "YYMMDDHHMM")
 #   DurationMinutes - Window (in minutes) around DateTimePull to include files.
 # -----------------------------------------------------------------------------
-DateTimePull = "250423233"  # e.g. "YYMMDDHHMM" (change as needed)
+DateTimePull = "2505011816"  # e.g. "YYMMDDHHMM" (change as needed)
 DurationMinutes = 60*200    # ± minutes window (adjust as needed)
 
 # Convert the input string to a datetime object.
@@ -47,8 +47,8 @@ for line in lines:
 
     # Check: filename starts with "padreMD" or "padreSP" AND if file size is >= 500"
     # if (lower_name.startswith("padremd") or lower_name.startswith("padresp")) and file_size >= 500:
-    # if (lower_name.startswith("padremd")) and file_size >= 500:
-    if (lower_name.startswith("padresp")) and file_size >= 500:
+    if (lower_name.startswith("padremd")) and file_size >= 500:
+    # if (lower_name.startswith("padresp")) and file_size >= 500:
     # if (lower_name.startswith("padremd") or lower_name.startswith("padresp")):
         # Expected filename format: padre####_YYMMDDHHMMSS.idx
         underscore_index = base_name.find("_")

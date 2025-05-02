@@ -5,9 +5,9 @@ significantly from expected sizes, then write an updated mapping CSV.
 """
 
 # === Configuration ===
-FOLDER_PATH = "file-MeDDEA_042925_DITL"        # Folder containing the .bin files
-MAPPING_CSV = "FilenameDirectory_250423233_Gen_20250430_161019.csv"  # Original mapping CSV
-THRESHOLD   = 4000                        # Bytes: threshold for detecting merges
+FOLDER_PATH = "file-MeDDEA_DITL_050125"        # Folder containing the .bin files
+MAPPING_CSV = "FilenameDirectory_2505011816_Gen_20250502_095314.csv"  # Original mapping CSV
+THRESHOLD   = 1500                       # Bytes: threshold for detecting merges
 # =====================
 
 import os
