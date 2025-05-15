@@ -1,2 +1,2 @@
-2025-05-02 12:30:40,676 [INFO ]  Starting utility with arguments: Namespace(gen=False, fake_pass='6f60131c-aeb3-4257-8d4d-4ca3fa9e7984', pass_duration=20, sat=None, suff=None, priority=699, delete=False, schedule=None, requested_pass=None, verbose=False)
-2025-05-02 12:30:41,260 [INFO ]  Faked pass 6f60131c-aeb3-4257-8d4d-4ca3fa9e7984 from 2025-05-02 12:31:11 to 2025-05-02 12:51:11 for satellite padre
+2025-05-15 10:26:36,237 [INFO ]  Starting utility with arguments: Namespace(gen=False, fake_pass='db87436a-db3a-4b5b-a1e4-ae478d193831', pass_duration=10, sat=None, suff=None, priority=699, delete=False, schedule=None, requested_pass=None, verbose=False)
+2025-05-15 10:26:36,652 [INFO ]  Faked pass db87436a-db3a-4b5b-a1e4-ae478d193831 from 2025-05-15 10:27:06 to 2025-05-15 10:37:06 for satellite padre-flatsat

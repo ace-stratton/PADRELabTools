@@ -44,31 +44,39 @@ for line in lines:
     # Get the base file name (e.g., "padreMDA0_250401212029.idx")
     base_name = os.path.basename(file_path)
     lower_name = base_name.lower()
-
+    underscore_index = base_name.find("_")
+    dot_index = base_name.find(".", underscore_index)
+    fileType = base_name[dot_index+1:]
     # Check: filename starts with "padreMD" or "padreSP" AND if file size is >= 500"
     # if (lower_name.startswith("padremd") or lower_name.startswith("padresp")) and file_size >= 500:
-    # if (lower_name.startswith("padresp")) and file_size >= 500:
-    if (lower_name.startswith("padremd") or lower_name.startswith("padresp")):
+    if (fileType.__contains__("tlm") or base_name.__contains__("tlm")):
+    # if (lower_name.startswith("padremd") or lower_name.startswith("padresp")):
         # Expected filename format: padre####_YYMMDDHHMMSS.idx
-        underscore_index = base_name.find("_")
-        dot_index = base_name.find(".", underscore_index)
-        fileType = base_name[dot_index+1:]
+        
+        
+        
         if underscore_index != -1 and dot_index != -1:
             # Extract the timestamp portion (between '_' and '.')
             time_str = base_name[underscore_index + 1:dot_index]
             # Ensure we have enough characters (at least for YYMMDDHHMM)
-            if len(time_str) >= 10:
+            if len(time_str) >= 10 and ((lower_name.startswith("padremd") or lower_name.startswith("padresp"))):
                 try:
                     # Parse the file's timestamp (expects full seconds, i.e. YYMMDDHHMMSS)
                     file_dt = datetime.strptime(time_str, "%y%m%d%H%M%S")
                 except ValueError:
+                    
                     continue  # Skip files that do not have the expected time string format
 
                 # Check if the file's timestamp is within ±DurationMinutes of the input time.
                 
                     # Store the upper-case version of the base file name and its datetime.
-                matching_entries.append((base_name.upper(), file_dt, fileType, file_size))
-
+        else:
+            file_dt = 'None'
+        if (base_name.__contains__("tlm")):
+            file_path = file_path.replace("/sd/", "")
+            matching_entries.append((file_path.upper(), file_dt, fileType, file_size))
+        else:
+            matching_entries.append((base_name.upper(), file_dt, fileType, file_size))
 # -----------------------------------------------------------------------------
 # Assign new file names sequentially: file-0, file-1, ...
 # Build a list of dictionaries with keys: "old", "new", "timestamp"
@@ -91,7 +99,10 @@ with open(lookup_csv_filename, "w", newline="") as csvfile:
     # writer.writerow(["Old Filename", "New Filename", "Extracted Timestamp"])
     for mapping in file_mappings:
         # Format timestamp in a readable format (e.g., "YYYY-MM-DD HH:MM:SS")
-        ts_formatted = mapping["timestamp"].strftime("%Y-%m-%d %H:%M:%S")
+        if mapping["timestamp"] == 'None':
+            ts_formatted = 'None'
+        else:
+            ts_formatted = mapping["timestamp"].strftime("%Y-%m-%d %H:%M:%S")
         writer.writerow([mapping["old"], mapping["new"], ts_formatted, mapping["filesize"]])
 
 
